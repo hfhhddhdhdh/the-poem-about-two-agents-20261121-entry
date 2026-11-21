@@ -19,6 +19,10 @@ OUTPUT_PATH = Path("/output/entry.txt")
 
 
 def main() -> None:
+    # The gate counts the text as Unicode code points: 1 to 280, not only
+    # white space. Refuse to write a text that would fail it.
+    if not 1 <= len(POEM) <= 280 or not POEM.strip():
+        raise ValueError("poem must be 1 to 280 characters, not only white space")
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(POEM, encoding="utf-8")
 
